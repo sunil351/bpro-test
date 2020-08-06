@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} All blogs {% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+    <h1> All blogs </h1>
+    {% if blogs %}  
+    <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Body</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for b in blogs %}
+        <tr>
+            <td>
+                <a href="/blog/{{b.id}}">{{b.title}}</a>
+            </td>
+            <td>
+                {{b.body}}
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td>
+                No blogs yet!
+            </td>
+        </tr>
+    {% endif %}
+    </tbody>
+    <table>
+{% endblock %}

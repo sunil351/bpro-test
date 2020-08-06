@@ -1,0 +1,69 @@
+  
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block body %}
+ <a href="/">Go Back</a>
+ <h1>{{ blog.title }}</h1>
+ <p>{{ blog.body }}</p>
+ <hr>
+
+ {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+<hr>
+Comments:
+  <table class="table table-bordered" id="myTable">
+    {% if comments %} 
+    <tbody>
+        {% for c in comments %}
+        <tr>
+            <td>
+                {{c.comment}}
+                <br>
+                <span style="font-size:10px"> by Anonymous.</span>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td>
+               No Comments.
+            </td>
+        </tr>
+    {% endif %}
+    </tbody>
+    <table>
+
+<script>
+// for simplicity sake im adding just js here not creating seperate file.
+// for real world app comments are needs to sync periodically from server so it stays updated when some other users are in conversation.. but in test im not doing it since i belive thats not part of the task.
+
+function addComment()
+{
+    var elements = document.getElementsByTagName("input");
+    var formData = new FormData(); 
+    for(var i=0; i<elements.length; i++)
+    {
+        formData.append(elements[i].name, elements[i].value);
+    }
+    var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function()
+        {
+            if(xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            {
+                var table = document.getElementById("myTable");
+                var row = table.insertRow(0);
+                var cell1 = row.insertCell(0);
+                var input = document.getElementById("form_comment");
+                cell1.innerHTML = input.value +"<br><span style='font-size:10px'> by Anonymous.</span>";
+                input.value = "";
+            }
+        }
+        xmlHttp.open("post", window.location.href); 
+        xmlHttp.send(formData); 
+}
+</script>
+{% endblock %}

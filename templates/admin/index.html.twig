@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} All blogs {% endblock %}
+
+{% block body %}
+    <h1>  Manage blogs </h1>
+    <a role="button" href="/admin/blogs/add" class="btn btn-primary">Add Blog</a>
+    <br><br>
+    {% if blogs %}
+    <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Body</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for b in blogs %}
+        <tr>
+            <td>
+                <a href="admin/blog/{{b.id}}">{{b.title}}</a>
+            </td>
+            <td>
+                {{b.body}}
+            </td>
+            <td>
+                <a href="admin/blog/edit/{{b.id}}" role="button" class="btn btn-warning">Edit</a> &nbsp;
+                <a href="admin/blog/delete/{{b.id}}" role="button" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td>
+                No blogs yet!
+            </td>
+        </tr>
+    {% endif %}
+    </tbody>
+    <table>
+{% endblock %}
